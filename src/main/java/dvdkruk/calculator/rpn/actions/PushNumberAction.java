@@ -1,8 +1,11 @@
-package dvdkruk.calculator.rpn.operators;
+package dvdkruk.calculator.rpn.actions;
 
 import dvdkruk.calculator.rpn.RpnCalculator;
 
-public class PushNumber implements RpnOperator {
+/**
+ * Push a number operator.
+ */
+public class PushNumberAction implements RpnAction {
 
     @Override
     public boolean isApplicable(String arg) {
@@ -16,11 +19,11 @@ public class PushNumber implements RpnOperator {
     }
 
     @Override
-    public boolean apply(String arg, RpnCalculator calculator) {
+    public String apply(String arg, RpnCalculator calculator) {
         calculator.push(Double.parseDouble(arg));
 
         //Action to undo
-        calculator.pushHistory(() -> calculator.pop());
-        return true;
+        calculator.pushHistory(calculator::pop);
+        return "";
     }
 }
