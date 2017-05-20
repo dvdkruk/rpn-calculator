@@ -1,5 +1,7 @@
-package dvdkruk.calculator.rpn;
+package dvdkruk.calculator.rpn.cli;
 
+
+import dvdkruk.calculator.rpn.RpnCalculator;
 
 import java.io.Console;
 import java.io.PrintWriter;

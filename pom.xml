@@ -35,7 +35,7 @@
                         <index>true</index>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>dvdkruk.calculator.rpn.RpnCalculatorCLI</mainClass>
+                            <mainClass>dvdkruk.calculator.rpn.cli.RpnCalculatorCLI</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

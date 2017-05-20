@@ -54,7 +54,7 @@ public class RpnCalculator {
      * @return an empty String when all arguments are successfully applied,
      * returns a warning when one of the arguments couldn't be applied.
      */
-    String parse(String[] args) {
+    public String parse(String[] args) {
         this.posCount = 1;
         for (String arg : args) {
             String warningMsg = parse(arg);
@@ -118,7 +118,7 @@ public class RpnCalculator {
      *
      * @return numbers on the stack as a space separated string.
      */
-    String getStackAsString() {
+    public String getStackAsString() {
         Iterator<Double> reversedStream = this.stack.descendingIterator();
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(reversedStream,
                 Spliterator.ORDERED), false)
@@ -194,7 +194,7 @@ public class RpnCalculator {
      *
      * @return all supported operators as comma separated string.
      */
-    String getSupportedOperators() {
+    public String getSupportedOperators() {
         return actions.stream().filter(a -> a instanceof RpnOperator)
                 .map(o -> ((RpnOperator) o).getOperator())
                 .collect(Collectors.joining(", "));
