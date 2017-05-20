@@ -14,7 +14,7 @@ public class ClearOperator extends DefaultRpnOperator {
     }
 
     @Override
-    protected void applyOperator(String arg, RpnCalculator calculator) {
+    protected void applyOperator(RpnCalculator calculator) {
         List<Double> oldStack = calculator.stackAsList();
         calculator.clear();
 

@@ -14,16 +14,14 @@ public class DivisionOperator extends DefaultRpnOperator {
     @Override
     protected String validateCalculator(RpnCalculator calculator) {
         String resultMsg = super.validateCalculator(calculator);
-        if (resultMsg.isEmpty()) {
-            if (calculator.peek() == 0.0) {
-                return String.format("operator %s (position: %d): cannot divide by zero", this.getOperatorAsString(), calculator.getPosCount());
-            }
+        if (resultMsg.isEmpty() && calculator.peek() == 0) {
+            return String.format("operator %s (position: %d): cannot divide by zero", this.getOperator(), calculator.getPosCount());
         }
         return resultMsg;
     }
 
     @Override
-    protected void applyOperator(String arg, RpnCalculator calculator) {
+    protected void applyOperator(RpnCalculator calculator) {
         Double right = calculator.pop();
         Double left = calculator.pop();
 

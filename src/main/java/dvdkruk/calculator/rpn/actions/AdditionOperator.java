@@ -12,7 +12,7 @@ public class AdditionOperator extends DefaultRpnOperator {
     }
 
     @Override
-    protected void applyOperator(String arg, RpnCalculator calculator) {
+    protected void applyOperator(RpnCalculator calculator) {
         Double rightNumber = calculator.pop();
         Double leftNumber = calculator.pop();
         calculator.push(leftNumber + rightNumber);

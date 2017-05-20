@@ -12,7 +12,7 @@ public class SqrtOperator extends DefaultRpnOperator {
     }
 
     @Override
-    protected void applyOperator(String arg, RpnCalculator calculator) {
+    protected void applyOperator(RpnCalculator calculator) {
         Double number = calculator.pop();
         calculator.push(Math.sqrt(number));
 

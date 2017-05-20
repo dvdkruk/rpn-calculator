@@ -10,5 +10,5 @@ public interface RpnOperator extends RpnAction {
      *
      * @return operator string on which this action is applicable.
      */
-    String getOperatorAsString();
+    String getOperator();
 }

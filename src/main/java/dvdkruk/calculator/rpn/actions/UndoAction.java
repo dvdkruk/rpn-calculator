@@ -3,6 +3,7 @@ package dvdkruk.calculator.rpn.actions;
 /**
  * Interface for describing an undo action.
  */
+@FunctionalInterface
 public interface UndoAction {
 
     /**

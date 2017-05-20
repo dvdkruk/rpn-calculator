@@ -2,18 +2,23 @@ package dvdkruk.calculator.rpn.actions;
 
 import dvdkruk.calculator.rpn.RpnCalculator;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Push a number operator.
  */
 public class PushNumberAction implements RpnAction {
 
+    private static final Logger LOG = Logger.getLogger(PushNumberAction.class.getName());
+
     @Override
     public boolean isApplicable(String arg) {
         try {
-            Double.parseDouble(arg);
-            return true;
+            Double number = Double.parseDouble(arg);
+            return !(number.isNaN() || number.isInfinite());
         } catch (NullPointerException | NumberFormatException e) {
-            // null or not a number
+            LOG.log(Level.FINEST, arg + " cannot be parsed to a " + Double.class, e);
         }
         return false;
     }

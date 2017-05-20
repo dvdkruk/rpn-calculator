@@ -14,16 +14,14 @@ public class UndoOperator extends DefaultRpnOperator {
     @Override
     protected String validateCalculator(RpnCalculator calculator) {
         String resultMsg = super.validateCalculator(calculator);
-        if (resultMsg.isEmpty()) {
-            if (calculator.getHistorySize() < 1) {
-                return String.format("operator %s (position: %d): history stack is empty", getOperatorAsString(), calculator.getPosCount());
-            }
+        if (resultMsg.isEmpty() && calculator.getHistorySize() < 1) {
+            return String.format("operator %s (position: %d): history stack is empty", getOperator(), calculator.getPosCount());
         }
         return resultMsg;
     }
 
     @Override
-    protected void applyOperator(String arg, RpnCalculator calculator) {
+    protected void applyOperator(RpnCalculator calculator) {
         calculator.popHistory().undo();
     }
 }

@@ -118,7 +118,7 @@ public class RpnCalculatorTest extends TestCase {
         assertEquals("", calculator.getStackAsString());
     }
 
-    public void testNoParamtersForTwoParamterRequiredOperator() {
+    public void testNoParametersForTwoParameterRequiredOperator() {
         assertEquals("operator * (position: 1): insufficient parameters", calculator.parse(new String[]{"*"}));
         assertEquals("", calculator.getStackAsString());
     }

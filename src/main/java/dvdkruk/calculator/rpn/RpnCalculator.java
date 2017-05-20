@@ -8,15 +8,16 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Reverse polish notation calculator.
  */
 public class RpnCalculator {
 
-    private final Stack<Double> stack = new Stack<>();
+    private final Deque<Double> stack = new ArrayDeque<>();
 
-    private final Stack<UndoAction> history = new Stack<>();
+    private final Deque<UndoAction> history = new ArrayDeque<>();
 
     private final Set<RpnAction> actions = Stream.of(
             new PushNumberAction(),
@@ -53,7 +54,7 @@ public class RpnCalculator {
      * @return an empty String when all arguments are successfully applied,
      * returns a warning when one of the arguments couldn't be applied.
      */
-    public String parse(String[] args) {
+    String parse(String[] args) {
         this.posCount = 1;
         for (String arg : args) {
             String warningMsg = parse(arg);
@@ -88,11 +89,10 @@ public class RpnCalculator {
      * Pushes the {@code number} argument onto the stack of the calculator.
      *
      * @param number number to push onto the stack
-     * @return the {@code number} argument.
      */
-    public Double push(Double number) {
+    public void push(Double number) {
         this.posCount++;
-        return this.stack.push(number);
+        this.stack.push(number);
     }
 
     /**
@@ -108,10 +108,9 @@ public class RpnCalculator {
      * Pushes the given undo actions on to the history stack of the calculator.
      *
      * @param undoAction undo actions to push.
-     * @return the {@code undoAction} argument.
      */
-    public UndoAction pushHistory(UndoAction undoAction) {
-        return this.history.push(undoAction);
+    public void pushHistory(UndoAction undoAction) {
+        this.history.push(undoAction);
     }
 
     /**
@@ -119,18 +118,12 @@ public class RpnCalculator {
      *
      * @return numbers on the stack as a space separated string.
      */
-    public String getStackAsString() {
-        Enumeration<Double> numbers = this.stack.elements();
-        if (numbers.hasMoreElements()) {
-            StringBuilder builder = new StringBuilder();
-            builder.append(this.formatter.format(numbers.nextElement()));
-            while (numbers.hasMoreElements()) {
-                builder.append(" ");
-                builder.append(this.formatter.format(numbers.nextElement()));
-            }
-            return builder.toString();
-        }
-        return "";
+    String getStackAsString() {
+        Iterator<Double> reversedStream = this.stack.descendingIterator();
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(reversedStream,
+                Spliterator.ORDERED), false)
+                .map(formatter::format)
+                .collect(Collectors.joining(" "));
     }
 
     /**
@@ -139,7 +132,7 @@ public class RpnCalculator {
      * @return current stack as list.
      */
     public List<Double> stackAsList() {
-        return Collections.list(this.stack.elements());
+        return new ArrayList<>(stack);
     }
 
     /**
@@ -201,9 +194,9 @@ public class RpnCalculator {
      *
      * @return all supported operators as comma separated string.
      */
-    public String getSupportedOperators() {
-        return actions.stream().filter(a -> a instanceof DefaultRpnOperator)
-                .map(o -> ((DefaultRpnOperator) o).getOperatorAsString())
+    String getSupportedOperators() {
+        return actions.stream().filter(a -> a instanceof RpnOperator)
+                .map(o -> ((RpnOperator) o).getOperator())
                 .collect(Collectors.joining(", "));
     }
 }

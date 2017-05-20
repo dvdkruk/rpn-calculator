@@ -17,27 +17,27 @@ public abstract class DefaultRpnOperator implements RpnOperator {
      * @param operator           the string of this operator
      * @param amountOfParameters amount parameters needed for this operator
      */
-    protected DefaultRpnOperator(String operator, int amountOfParameters) {
+    DefaultRpnOperator(String operator, int amountOfParameters) {
         this.operator = operator;
         this.amountOfParameters = amountOfParameters;
     }
 
     @Override
     public boolean isApplicable(String arg) {
-        return arg.equals(this.operator);
+        return arg.equals(getOperator());
     }
 
     @Override
     public String apply(String arg, RpnCalculator calculator) {
         String resultMsg = validateCalculator(calculator);
         if (resultMsg.isEmpty()) {
-            applyOperator(arg, calculator);
+            applyOperator(calculator);
         }
         return resultMsg;
     }
 
     @Override
-    public String getOperatorAsString() {
+    public String getOperator() {
         return this.operator;
     }
 
@@ -50,9 +50,9 @@ public abstract class DefaultRpnOperator implements RpnOperator {
      * @return an empty string when the state of the calculator is valid,
      * else a warning message is returned.
      */
-    protected String validateCalculator(RpnCalculator calculator) {
+    String validateCalculator(RpnCalculator calculator) {
         if (calculator.getStackSize() < this.amountOfParameters) {
-            return String.format("operator %s (position: %d): insufficient parameters", this.operator, calculator.getPosCount() + calculator.getStackSize());
+            return String.format("operator %s (position: %d): insufficient parameters", getOperator(), calculator.getPosCount() + calculator.getStackSize());
         }
         return "";
     }
@@ -60,9 +60,8 @@ public abstract class DefaultRpnOperator implements RpnOperator {
     /**
      * Apply the operator on the given calculator.
      *
-     * @param arg        the applicable arg
      * @param calculator the calculator for applying this operator.
      */
-    protected abstract void applyOperator(String arg, RpnCalculator calculator);
+    protected abstract void applyOperator(RpnCalculator calculator);
 
 }
